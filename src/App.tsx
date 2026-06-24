@@ -84,8 +84,18 @@ export default function App() {
   const [active, setActive] = useState(1)
   const day = days.find((d) => d.id === active)!
 
+  // 互動：深色模式，偏好存 localStorage
+  const [dark, setDark] = useState(() => localStorage.getItem('theme') === 'dark')
+  useEffect(() => {
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+    localStorage.setItem('theme', dark ? 'dark' : 'light')
+  }, [dark])
+
   return (
     <div className="app">
+      <button className="theme-toggle" onClick={() => setDark((d) => !d)} aria-label="切換深色模式">
+        {dark ? '☀️' : '🌙'}
+      </button>
       <header className="hero">
         <h1>{trip.title}</h1>
         <p className="sub">{trip.subtitle}・7/13–7/18</p>
