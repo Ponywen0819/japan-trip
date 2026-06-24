@@ -149,8 +149,7 @@ export const days: Day[] = [
       { start: '11:30', end: '12:00', type: 'meal', text: '午餐', note: '大阪出發前吃' },
       { start: '12:30', end: '13:00', type: 'move', text: '大阪 → 京都站', note: 'JR 約 30 分' },
       { start: '13:00', end: '13:20', type: 'move', text: '京都站寄行李', note: '置物櫃 ¥700／B1 Crosta 人工寄物' },
-      { start: '13:30', end: '15:30', type: 'stay', text: '京都大學 找朋友', note: '左京區吉田本町' },
-      { start: '15:30', end: '17:00', type: 'stay', text: '鴨川三角洲 散步拍照', note: '出町柳' },
+      { start: '13:30', end: '17:00', type: 'stay', text: '鴨川三角洲 散步拍照', note: '出町柳' },
       { start: '17:30', end: '20:00', type: 'move', text: '特急雷鳥號 → 敦賀轉北陸新幹線 → 金澤', note: '回京都站取行李，約 2 小時餘' },
       {
         start: '20:00',
