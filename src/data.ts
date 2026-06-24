@@ -1,21 +1,12 @@
 // 行程資料 — 單一資料來源，改這裡就好
-export interface Hotel {
-  nights: string
-  name: string
-  jp: string
-  area: string
-  addr: string
-  tel: string
-  note: string
-  map: string
-}
-
-// type: 'stay' = 定點行程（卡片）；'move' = 移動過程（純文字）；'meal' = 用餐
+// type: 'stay' = 定點行程；'move' = 移動過程（純文字）；'meal' = 用餐；'hotel' = 住宿
 export interface Slot {
   start: string // 'HH:MM'
   end: string
   text: string
-  type: 'stay' | 'move' | 'meal'
+  type: 'stay' | 'move' | 'meal' | 'hotel'
+  addr?: string // 住宿地址（hotel 用）
+  map?: string // Google 地圖連結（hotel 用）
 }
 
 export interface Day {
@@ -34,38 +25,13 @@ export const trip = {
   axis: '關西專心玩大阪，金澤兩晚從容，最後配合研討會。京都、奈良留待下次。',
 }
 
-export const hotels: Hotel[] = [
-  {
-    nights: '7/13–7/15',
-    name: '心齋橋哈頓飯店',
-    jp: 'ハートンホテル心斎橋',
-    area: '大阪・心齋橋',
-    addr: '〒542-0086 大阪府大阪市中央區西心齋橋 1-5-24',
-    tel: '+81-6-6251-3711',
-    note: '入住 15:00 起、退房 12:00 前。逛街、道頓堀晚餐步行可達。',
-    map: 'https://www.google.com/maps/search/?api=1&query=1+Chome-5-24+Nishishinsaibashi+Chuo+Osaka',
-  },
-  {
-    nights: '7/15–7/17',
-    name: 'MYSTAYS 金澤片町飯店',
-    jp: 'ホテルマイステイズ金沢片町',
-    area: '金澤・片町',
-    addr: '〒920-0981 石川縣金澤市片町 1 丁目 10-18',
-    tel: '',
-    note: '片町鬧區，金澤在地美食（金沢おでん、壽司）步行可達。',
-    map: 'https://www.google.com/maps/search/?api=1&query=1+Chome-10-18+Katamachi+Kanazawa',
-  },
-  {
-    nights: '7/17–7/18',
-    name: '新大阪微笑飯店',
-    jp: 'スマイルホテル新大阪',
-    area: '新大阪站旁',
-    addr: '〒532-0011 大阪府大阪市澱川區西中島 6-1-11',
-    tel: '+81-6-6309-7755',
-    note: '就在新大阪站旁，金澤搭新幹線直達下車即到，隔天去機場很順。',
-    map: 'https://www.google.com/maps/search/?api=1&query=6+Chome-1-11+Nishinakajima+Yodogawa+Osaka',
-  },
-]
+// 住宿地圖連結（hotel slot 共用）
+const MAP_HEARTON =
+  'https://www.google.com/maps/search/?api=1&query=1+Chome-5-24+Nishishinsaibashi+Chuo+Osaka'
+const MAP_MYSTAYS =
+  'https://www.google.com/maps/search/?api=1&query=1+Chome-10-18+Katamachi+Kanazawa'
+const MAP_SMILE =
+  'https://www.google.com/maps/search/?api=1&query=6+Chome-1-11+Nishinakajima+Yodogawa+Osaka'
 
 export const days: Day[] = [
   {
@@ -80,9 +46,16 @@ export const days: Day[] = [
       { start: '12:40', end: '12:50', type: 'move', text: '南海電鐵 → 臨空城站（1 站約 6 分）' },
       { start: '12:50', end: '13:00', type: 'move', text: '站外寄物、走聯絡空橋到 outlet' },
       { start: '13:00', end: '13:40', type: 'meal', text: '午餐：臨空城 outlet 餐廳／美食廣場' },
-      { start: '13:40', end: '16:30', type: 'stay', text: '臨空城 Rinku Premium Outlets 採買（逾 250 家品牌，慢慢逛）' },
+      { start: '13:40', end: '16:30', type: 'stay', text: '臨空城 Rinku Premium Outlets 採買' },
       { start: '16:30', end: '17:20', type: 'move', text: '取行李，南海電鐵 → 難波站（約 50 分）' },
-      { start: '17:20', end: '17:40', type: 'move', text: '步行到心齋橋飯店放行李' },
+      {
+        start: '17:20',
+        end: '17:40',
+        type: 'hotel',
+        text: '入住 心齋橋哈頓飯店（放行李）',
+        addr: '〒542-0086 大阪市中央區西心齋橋 1-5-24',
+        map: MAP_HEARTON,
+      },
       { start: '18:30', end: '20:00', type: 'meal', text: '晚餐：道頓堀（大牧場燒肉/神戶牛 或 千房大阪燒、今井烏龍麵）' },
       { start: '20:00', end: '21:30', type: 'stay', text: '道頓堀夜逛（唐吉訶德／心齋橋筋）' },
     ],
@@ -99,13 +72,13 @@ export const days: Day[] = [
     summary:
       '前一天累了、早上爬不起來很正常。這天不排早上行程，睡飽自然醒，重點放下午的大阪城（天守閣＋御座船），傍晚回市區購物。',
     slots: [
-      { start: '11:00', end: '12:30', type: 'meal', text: '早午餐：悠閒早午餐（起床後）' },
+      { start: '11:00', end: '12:30', type: 'meal', text: '早午餐：起床後悠閒吃' },
       { start: '12:30', end: '13:30', type: 'move', text: '搭車前往大阪城公園' },
       { start: '13:30', end: '14:30', type: 'stay', text: '大阪城公園散步（最晚 14:30 到）' },
       { start: '14:30', end: '16:30', type: 'stay', text: '大阪城天守閣（博物館＋登頂；夏之陣模型、武將頭盔拍照 ¥500）' },
       { start: '16:30', end: '16:50', type: 'stay', text: '御座船 金色遊船遊護城河（¥1,500）' },
       { start: '16:50', end: '17:30', type: 'move', text: '公園黃昏拍照，搭車回難波/心齋橋' },
-      { start: '18:00', end: '19:30', type: 'meal', text: '晚餐：心齋橋/難波（選擇最多）' },
+      { start: '18:00', end: '19:30', type: 'meal', text: '晚餐：心齋橋/難波' },
       { start: '19:30', end: '21:00', type: 'stay', text: '心齋橋、難波購物' },
     ],
     tips: [
@@ -121,14 +94,21 @@ export const days: Day[] = [
     summary:
       '京都剛好在大阪往金澤的雷鳥號線上，順道下車當中繼站。行李寄京都站置物櫃，輕裝去京大找朋友、鴨川散步拍照，再續往金澤。',
     slots: [
-      { start: '11:00', end: '11:30', type: 'stay', text: '心齋橋哈頓飯店退房（須 12:00 前）' },
+      { start: '11:00', end: '11:30', type: 'hotel', text: '心齋橋哈頓飯店退房（須 12:00 前）' },
       { start: '11:30', end: '12:00', type: 'meal', text: '午餐：大阪出發前吃' },
       { start: '12:30', end: '13:00', type: 'move', text: '大阪 → 京都站（JR 約 30 分）' },
       { start: '13:00', end: '13:20', type: 'move', text: '京都站寄行李（置物櫃 ¥700／B1 Crosta 人工寄物）' },
       { start: '13:30', end: '15:30', type: 'stay', text: '京都大學（左京區吉田本町）找朋友' },
       { start: '15:30', end: '17:00', type: 'stay', text: '鴨川三角洲（出町柳）散步拍照' },
       { start: '17:30', end: '20:00', type: 'move', text: '回京都站取行李，特急雷鳥號 → 敦賀轉北陸新幹線 → 金澤（約 2 小時餘）' },
-      { start: '20:00', end: '20:30', type: 'stay', text: '抵金澤，片町飯店放行李' },
+      {
+        start: '20:00',
+        end: '20:30',
+        type: 'hotel',
+        text: '入住 MYSTAYS 金澤片町飯店（放行李）',
+        addr: '〒920-0981 石川縣金澤市片町 1 丁目 10-18',
+        map: MAP_MYSTAYS,
+      },
       { start: '20:30', end: '21:30', type: 'meal', text: '晚餐：金澤片町（金沢おでん、壽司或居酒屋）' },
     ],
     tips: [
@@ -145,9 +125,9 @@ export const days: Day[] = [
     summary: '不貪多。這天以兼六園為核心慢慢逛，周邊順路的當「有力氣再加」，累了就回飯店休息，保留品質。',
     slots: [
       { start: '10:00', end: '11:30', type: 'meal', text: '早午餐：近江町市場 海鮮丼（加金箔、能登和牛、喉黑魚；從片町步行約 18-20 分）' },
-      { start: '11:30', end: '14:00', type: 'stay', text: '兼六園（本日主角，新綠、霞之池、徽軫石燈籠，慢逛慢拍）' },
-      { start: '14:00', end: '15:00', type: 'stay', text: '金澤城公園（兼六園隔壁，順走）' },
-      { start: '15:30', end: '17:00', type: 'stay', text: '東茶屋街 金箔甜點（看體力，選配）' },
+      { start: '11:30', end: '14:00', type: 'stay', text: '兼六園（新綠、霞之池、徽軫石燈籠）' },
+      { start: '14:00', end: '15:00', type: 'stay', text: '金澤城公園' },
+      { start: '15:30', end: '17:00', type: 'stay', text: '東茶屋街 金箔甜點' },
       { start: '18:30', end: '20:00', type: 'meal', text: '晚餐：片町（金沢おでん或壽司）' },
     ],
     tips: [
@@ -162,12 +142,19 @@ export const days: Day[] = [
     title: '金澤研討會 → 晚上回大阪',
     summary: '重點日，移動與行李要先安排好。',
     slots: [
-      { start: '08:00', end: '08:30', type: 'move', text: '金澤飯店退房，行李寄放飯店/車站' },
+      { start: '08:00', end: '08:30', type: 'hotel', text: 'MYSTAYS 金澤片町退房，行李寄放飯店/車站' },
       { start: '08:30', end: '10:00', type: 'stay', text: '研討會前空檔，近江町市場買伴手禮、咖啡' },
       { start: '11:30', end: '12:30', type: 'meal', text: '午餐：近江町市場或研討會場' },
       { start: '13:00', end: '17:00', type: 'stay', text: '研討會' },
       { start: '17:30', end: '20:00', type: 'move', text: '取行李，金澤站搭車回大阪（約 2.5 小時）' },
-      { start: '20:00', end: '20:30', type: 'stay', text: '抵新大阪，飯店入住' },
+      {
+        start: '20:00',
+        end: '20:30',
+        type: 'hotel',
+        text: '入住 新大阪微笑飯店',
+        addr: '〒532-0011 大阪市澱川區西中島 6-1-11',
+        map: MAP_SMILE,
+      },
       { start: '20:30', end: '21:30', type: 'meal', text: '宵夜/晚餐：抵達後簡單吃' },
     ],
     tips: [
@@ -182,7 +169,7 @@ export const days: Day[] = [
     title: '大阪｜上午收尾 → 下午飛回台灣',
     summary: 'Outlet 已移到 Day 1，這天就市區輕鬆收尾、從容進機場。住新大阪站旁，去機場很順。',
     slots: [
-      { start: '09:00', end: '10:00', type: 'stay', text: '新大阪微笑飯店退房、最後採買' },
+      { start: '09:00', end: '10:00', type: 'hotel', text: '新大阪微笑飯店退房、最後採買' },
       { start: '10:00', end: '10:45', type: 'meal', text: '早午餐：市區或飯店周邊' },
       { start: '11:00', end: '11:50', type: 'move', text: '新大阪站 JR 特急 HARUKA → 關西機場（約 50 分）' },
       { start: '12:00', end: '13:30', type: 'stay', text: '關西機場：登機手續、退稅查驗' },

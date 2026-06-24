@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { trip, days, hotels, type Day } from './data'
+import { trip, days, type Day } from './data'
 
 function Timeline({ slots }: { slots: Day['slots'] }) {
   return (
@@ -9,7 +9,16 @@ function Timeline({ slots }: { slots: Day['slots'] }) {
           <span className="tl-slot-time">
             {s.start}–{s.end}
           </span>
-          <span className="tl-slot-text">{s.text}</span>
+          <span className="tl-slot-text">
+            {s.map ? (
+              <a href={s.map} target="_blank" rel="noreferrer">
+                {s.text}
+              </a>
+            ) : (
+              s.text
+            )}
+            {s.addr && <span className="tl-addr">{s.addr}</span>}
+          </span>
         </div>
       ))}
     </div>
@@ -67,25 +76,6 @@ export default function App() {
 
       <main>
         <DayView day={day} />
-
-        <section className="card">
-          <h2>🏨 住宿</h2>
-          {hotels.map((h) => (
-            <div className="hotel" key={h.name}>
-              <div className="hotel-head">
-                <strong>{h.name}</strong>
-                <span className="nights">{h.nights}</span>
-              </div>
-              <p className="muted">{h.jp}・{h.area}</p>
-              <p>{h.addr}</p>
-              {h.tel && <p>☎ {h.tel}</p>}
-              <p className="note">{h.note}</p>
-              <a href={h.map} target="_blank" rel="noreferrer" className="map-link">
-                📍 Google 地圖
-              </a>
-            </div>
-          ))}
-        </section>
       </main>
 
       <footer>祝研討會順利、旅途愉快！</footer>

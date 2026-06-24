@@ -198,6 +198,30 @@ body {
 .tl-slot.meal .tl-slot-text::before {
   content: '🍱 ';
 }
+/* 住宿 → 卡片，含地址與地圖連結 */
+.tl-slot.hotel .tl-slot-text {
+  background: var(--hl);
+  border: 1px dashed var(--accent);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.tl-slot.hotel .tl-slot-text::before {
+  content: '🏨 ';
+}
+.tl-slot.hotel a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}
+.tl-slot.hotel a:hover {
+  text-decoration: underline;
+}
+.tl-addr {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
 
 .tips {
   margin: 8px 0 0;
