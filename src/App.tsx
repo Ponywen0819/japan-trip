@@ -21,11 +21,6 @@ function DayView({ day }: { day: Day }) {
     <article className="card">
       <Timeline slots={day.slots} />
 
-      <div className="meals">
-        <span>🍱 午餐：{day.meals.lunch}</span>
-        <span>🍶 晚餐：{day.meals.dinner}</span>
-      </div>
-
       <ul className="tips">
         {day.tips.map((t, i) => (
           <li key={i}>{t}</li>
