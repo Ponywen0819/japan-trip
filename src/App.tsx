@@ -10,13 +10,16 @@ function Timeline({ slots }: { slots: Day['slots'] }) {
             {s.start}–{s.end}
           </span>
           <span className="tl-slot-text">
-            {s.map ? (
-              <a href={s.map} target="_blank" rel="noreferrer">
-                {s.text}
-              </a>
-            ) : (
-              s.text
-            )}
+            <span className="tl-title">
+              {s.map ? (
+                <a href={s.map} target="_blank" rel="noreferrer">
+                  {s.text}
+                </a>
+              ) : (
+                s.text
+              )}
+            </span>
+            {s.note && <span className="tl-note">{s.note}</span>}
             {s.addr && <span className="tl-addr">{s.addr}</span>}
             {s.links && (
               <span className="tl-links">

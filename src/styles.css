@@ -167,8 +167,19 @@ body {
   text-align: right;
 }
 .tl-slot-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   font-size: 0.9rem;
   line-height: 1.5;
+}
+.tl-title {
+  font-weight: 600;
+}
+.tl-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.45;
 }
 /* 定點行程 → 卡片 */
 .tl-slot.stay .tl-slot-text {
@@ -186,7 +197,7 @@ body {
   border-radius: 8px;
   padding: 10px 12px;
 }
-.tl-slot.move .tl-slot-text::before {
+.tl-slot.move .tl-title::before {
   content: '🚃 ';
 }
 /* 用餐 → 卡片，暖色標示 */
@@ -197,7 +208,7 @@ body {
   border-radius: 8px;
   padding: 10px 12px;
 }
-.tl-slot.meal .tl-slot-text::before {
+.tl-slot.meal .tl-title::before {
   content: '🍱 ';
 }
 /* 住宿 → 卡片，含地址與地圖連結 */
@@ -207,7 +218,7 @@ body {
   border-radius: 8px;
   padding: 10px 12px;
 }
-.tl-slot.hotel .tl-slot-text::before {
+.tl-slot.hotel .tl-title::before {
   content: '🏨 ';
 }
 .tl-slot.hotel a {
