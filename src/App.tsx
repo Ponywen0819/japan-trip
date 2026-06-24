@@ -55,16 +55,17 @@ function DayView({ day }: { day: Day }) {
       <h3 className="day-title">{day.title}</h3>
       <p className="summary">{day.summary}</p>
 
-      <table className="schedule">
-        <tbody>
-          {day.schedule.map(([time, what], i) => (
-            <tr key={i}>
-              <td className="time">{time}</td>
-              <td>{what}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="timeline">
+        {day.schedule.map(([time, what], i) => (
+          <div className="tl-item" key={i}>
+            <div className="tl-time">{time}</div>
+            <div className="tl-marker" aria-hidden="true">
+              <span className="tl-dot" />
+            </div>
+            <div className="tl-card">{what}</div>
+          </div>
+        ))}
+      </div>
 
       <div className="meals">
         <span>🍱 午餐：{day.meals.lunch}</span>

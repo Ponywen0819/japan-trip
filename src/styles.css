@@ -146,22 +146,63 @@ body {
   font-size: 0.92rem;
 }
 
-.schedule {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 8px 0;
+/* 時間線 */
+.timeline {
+  margin: 14px 0 4px;
 }
-.schedule td {
-  padding: 10px 6px;
-  border-bottom: 1px solid var(--line);
-  vertical-align: top;
-  font-size: 0.93rem;
+.tl-item {
+  display: grid;
+  grid-template-columns: 78px 24px 1fr;
+  align-items: stretch;
+  min-height: 56px;
 }
-.schedule .time {
-  white-space: nowrap;
+.tl-time {
+  text-align: right;
+  padding: 12px 8px 0 0;
   font-weight: 600;
+  font-size: 0.82rem;
   color: var(--accent2);
-  width: 90px;
+  white-space: nowrap;
+}
+.tl-marker {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+/* 連接線：貫穿整條，首末用 item 遮住兩端 */
+.tl-marker::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+}
+.tl-item:first-child .tl-marker::before {
+  top: 18px;
+}
+.tl-item:last-child .tl-marker::before {
+  bottom: calc(100% - 18px);
+}
+.tl-dot {
+  position: relative;
+  margin-top: 13px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--card);
+  box-shadow: 0 0 0 2px var(--accent);
+  flex: 0 0 auto;
+}
+.tl-card {
+  background: var(--hl);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 4px 0 10px 6px;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .meals {
