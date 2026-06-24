@@ -50,9 +50,6 @@ function Timeline({ slots }: { slots: Day['slots'] }) {
 function DayView({ day }: { day: Day }) {
   return (
     <article className="card">
-      <h3 className="day-title">{day.title}</h3>
-      <p className="summary">{day.summary}</p>
-
       <Timeline slots={day.slots} />
 
       <div className="meals">
