@@ -1,42 +1,11 @@
 import { useState, useEffect } from 'react'
 import { trip, days, hotels, type Day } from './data'
 
-const PX_PER_MIN = 1.5 // 每分鐘像素 → 30 分 = 45px
-const toMin = (t: string) => {
-  const [h, m] = t.split(':').map(Number)
-  return h * 60 + m
-}
-const fmt = (min: number) =>
-  `${String(Math.floor(min / 60)).padStart(2, '0')}:${String(min % 60).padStart(2, '0')}`
-
 function Timeline({ slots }: { slots: Day['slots'] }) {
-  // 固定 30 分刻度的真實時間軸：往下取整到整點/半點，往上同理
-  const base = Math.floor(Math.min(...slots.map((s) => toMin(s.start))) / 30) * 30
-  const end = Math.ceil(Math.max(...slots.map((s) => toMin(s.end))) / 30) * 30
-
-  const ticks: number[] = []
-  for (let t = base; t <= end; t += 30) ticks.push(t)
-
   return (
-    <div className="timeline" style={{ height: (end - base) * PX_PER_MIN }}>
-      {ticks.map((t) => (
-        <div
-          key={t}
-          className={t % 60 === 0 ? 'tl-tick hour' : 'tl-tick'}
-          style={{ top: (t - base) * PX_PER_MIN }}
-        >
-          <span className="tl-tlabel">{fmt(t)}</span>
-        </div>
-      ))}
+    <div className="timeline">
       {slots.map((s, i) => (
-        <div
-          key={i}
-          className={`tl-slot ${s.type}`}
-          style={{
-            top: (toMin(s.start) - base) * PX_PER_MIN,
-            height: (toMin(s.end) - toMin(s.start)) * PX_PER_MIN,
-          }}
-        >
+        <div className={`tl-slot ${s.type}`} key={i}>
           <span className="tl-slot-time">
             {s.start}–{s.end}
           </span>

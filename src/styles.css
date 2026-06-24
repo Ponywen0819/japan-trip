@@ -146,69 +146,43 @@ body {
   font-size: 0.92rem;
 }
 
-/* 真實時間軸時間線 */
+/* 時間線：固定大小卡片，各自標時間 */
 .timeline {
-  position: relative;
   margin: 16px 0 4px;
-  padding-left: 56px;
-}
-/* 30 分刻度線 */
-.tl-tick {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 0;
-  border-top: 1px dashed var(--line);
-}
-.tl-tick.hour {
-  border-top-style: solid;
-}
-.tl-tlabel {
-  position: absolute;
-  left: 0;
-  top: -0.6em;
-  width: 48px;
-  text-align: right;
-  font-size: 0.72rem;
-  color: var(--muted);
-}
-.tl-tick.hour .tl-tlabel {
-  color: var(--accent2);
-  font-weight: 600;
-}
-/* 行程塊：絕對定位，高度＝時長 */
-.tl-slot {
-  position: absolute;
-  left: 60px;
-  right: 0;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 4px 0;
+  gap: 8px;
+}
+.tl-slot {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  align-items: baseline;
+  gap: 10px;
 }
 .tl-slot-time {
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   color: var(--accent2);
   font-weight: 600;
+  white-space: nowrap;
+  text-align: right;
 }
 .tl-slot-text {
-  font-size: 0.86rem;
-  line-height: 1.45;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 /* 定點行程 → 卡片 */
-.tl-slot.stay {
+.tl-slot.stay .tl-slot-text {
   background: var(--hl);
   border: 1px solid var(--line);
   border-left: 3px solid var(--accent);
   border-radius: 8px;
-  padding: 6px 12px;
+  padding: 10px 12px;
 }
 /* 移動過程 → 純文字、無卡片 */
-.tl-slot.move {
-  padding: 4px 12px;
+.tl-slot.move .tl-slot-text {
   color: var(--muted);
   font-style: italic;
+  padding: 2px 0;
 }
 .tl-slot.move .tl-slot-text::before {
   content: '↳ ';
