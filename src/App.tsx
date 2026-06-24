@@ -1,50 +1,5 @@
 import { useState, useEffect } from 'react'
-import { trip, days, hotels, reminders, checklistDefault, type Day } from './data'
-
-type Checked = Record<string, boolean>
-
-function Checklist() {
-  // 互動：勾選狀態存 localStorage，重開瀏覽器還在
-  const [checked, setChecked] = useState<Checked>(() => {
-    try {
-      return JSON.parse(localStorage.getItem('packing') || '{}') as Checked
-    } catch {
-      return {}
-    }
-  })
-
-  useEffect(() => {
-    localStorage.setItem('packing', JSON.stringify(checked))
-  }, [checked])
-
-  const done = checklistDefault.filter((i) => checked[i]).length
-
-  return (
-    <section className="card">
-      <h2>🧳 行前待辦 / 行李清單</h2>
-      <p className="muted">已完成 {done} / {checklistDefault.length}</p>
-      <ul className="checklist">
-        {checklistDefault.map((item) => (
-          <li key={item}>
-            <label className={checked[item] ? 'done' : ''}>
-              <input
-                type="checkbox"
-                checked={!!checked[item]}
-                onChange={(e) => setChecked((c) => ({ ...c, [item]: e.target.checked }))}
-              />
-              {item}
-            </label>
-          </li>
-        ))}
-      </ul>
-      {done > 0 && (
-        <button className="link-btn" onClick={() => setChecked({})}>
-          清除全部勾選
-        </button>
-      )}
-    </section>
-  )
-}
+import { trip, days, hotels, type Day } from './data'
 
 function DayView({ day }: { day: Day }) {
   return (
@@ -119,8 +74,6 @@ export default function App() {
       <main>
         <DayView day={day} />
 
-        <Checklist />
-
         <section className="card">
           <h2>🏨 住宿</h2>
           {hotels.map((h) => (
@@ -138,15 +91,6 @@ export default function App() {
               </a>
             </div>
           ))}
-        </section>
-
-        <section className="card">
-          <h2>📌 整體提醒</h2>
-          <ul className="tips">
-            {reminders.map((r, i) => (
-              <li key={i}>{r}</li>
-            ))}
-          </ul>
         </section>
       </main>
 

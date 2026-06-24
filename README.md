@@ -5,8 +5,7 @@
 🔗 **線上瀏覽：https://ponywen0819.github.io/japan-trip/**
 
 ## 功能
-- Day 1–6 分頁切換
-- 行李/待辦清單，勾選狀態存 `localStorage`
+- Day 1–6 分頁切換，每天以時間線卡片呈現
 - 深色模式切換（記住偏好）
 - 住宿 Google 地圖連結
 
