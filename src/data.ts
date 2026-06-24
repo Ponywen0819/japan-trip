@@ -76,8 +76,8 @@ export const days: Day[] = [
         start: '16:30',
         end: '17:20',
         type: 'move',
-        text: '取行李，南海電鐵 → 難波站（約 50 分）',
-        links: [{ label: '🧭 路線 臨空城→難波', url: mapDir('Rinku-town Station', 'Namba Station Osaka') }],
+        text: '取行李，南海電鐵 → 難波站（約 50 分），步行到飯店',
+        links: [{ label: '🧭 路線 臨空城→飯店', url: mapDir('Rinku-town Station', '1-5-24 Nishishinsaibashi Chuo Osaka') }],
       },
       {
         start: '17:20',
@@ -86,7 +86,6 @@ export const days: Day[] = [
         text: '入住 心齋橋哈頓飯店（放行李）',
         addr: '〒542-0086 大阪市中央區西心齋橋 1-5-24',
         map: MAP_HEARTON,
-        links: [{ label: '🧭 路線 難波站→飯店', url: mapDir('Namba Station Osaka', '1-5-24 Nishishinsaibashi Chuo Osaka') }],
       },
       {
         start: '18:30',

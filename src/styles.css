@@ -178,14 +178,16 @@ body {
   border-radius: 8px;
   padding: 10px 12px;
 }
-/* 移動過程 → 純文字、無卡片 */
+/* 移動過程 → 與其他行程同級的卡片 */
 .tl-slot.move .tl-slot-text {
-  color: var(--muted);
-  font-style: italic;
-  padding: 2px 0;
+  background: var(--hl);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--muted);
+  border-radius: 8px;
+  padding: 10px 12px;
 }
 .tl-slot.move .tl-slot-text::before {
-  content: '↳ ';
+  content: '🚃 ';
 }
 /* 用餐 → 卡片，暖色標示 */
 .tl-slot.meal .tl-slot-text {
