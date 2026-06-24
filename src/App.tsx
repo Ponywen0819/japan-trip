@@ -18,6 +18,15 @@ function Timeline({ slots }: { slots: Day['slots'] }) {
               s.text
             )}
             {s.addr && <span className="tl-addr">{s.addr}</span>}
+            {s.links && (
+              <span className="tl-links">
+                {s.links.map((l) => (
+                  <a key={l.url} href={l.url} target="_blank" rel="noreferrer" className="tl-link">
+                    {l.label}
+                  </a>
+                ))}
+              </span>
+            )}
           </span>
         </div>
       ))}

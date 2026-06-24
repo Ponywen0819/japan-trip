@@ -7,6 +7,7 @@ export interface Slot {
   type: 'stay' | 'move' | 'meal' | 'hotel'
   addr?: string // 住宿地址（hotel 用）
   map?: string // Google 地圖連結（hotel 用）
+  links?: { label: string; url: string }[] // 額外連結：地點、路線導航等
 }
 
 export interface Day {
@@ -25,6 +26,12 @@ export const trip = {
   axis: '關西專心玩大阪，金澤兩晚從容，最後配合研討會。京都、奈良留待下次。',
 }
 
+// Google Maps 連結產生器
+const mapSearch = (q: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
+const mapDir = (origin: string, dest: string) =>
+  `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(dest)}&travelmode=transit`
+
 // 住宿地圖連結（hotel slot 共用）
 const MAP_HEARTON =
   'https://www.google.com/maps/search/?api=1&query=1+Chome-5-24+Nishishinsaibashi+Chuo+Osaka'
@@ -42,12 +49,36 @@ export const days: Day[] = [
     summary:
       '中午落地，正好接上 outlet 營業時間。下飛機帶行李一站到臨空城，寄物逛街，傍晚再進大阪，沒有趕班機壓力、從容很多。',
     slots: [
-      { start: '11:25', end: '12:30', type: 'move', text: '關西機場入境、提行李（約 12:30 出關）' },
-      { start: '12:40', end: '12:50', type: 'move', text: '南海電鐵 → 臨空城站（1 站約 6 分）' },
+      {
+        start: '11:25',
+        end: '12:30',
+        type: 'move',
+        text: '關西機場入境、提行李（約 12:30 出關）',
+        links: [{ label: '關西機場', url: mapSearch('Kansai International Airport Terminal 1') }],
+      },
+      {
+        start: '12:40',
+        end: '12:50',
+        type: 'move',
+        text: '南海電鐵 → 臨空城站（1 站約 6 分）',
+        links: [{ label: '🧭 路線 機場→臨空城', url: mapDir('Kansai Airport Station', 'Rinku-town Station') }],
+      },
       { start: '12:50', end: '13:00', type: 'move', text: '站外寄物、走聯絡空橋到 outlet' },
       { start: '13:00', end: '13:40', type: 'meal', text: '午餐：臨空城 outlet 餐廳／美食廣場' },
-      { start: '13:40', end: '16:30', type: 'stay', text: '臨空城 Rinku Premium Outlets 採買' },
-      { start: '16:30', end: '17:20', type: 'move', text: '取行李，南海電鐵 → 難波站（約 50 分）' },
+      {
+        start: '13:40',
+        end: '16:30',
+        type: 'stay',
+        text: '臨空城 Rinku Premium Outlets 採買',
+        links: [{ label: 'Rinku Premium Outlets', url: mapSearch('Rinku Premium Outlets') }],
+      },
+      {
+        start: '16:30',
+        end: '17:20',
+        type: 'move',
+        text: '取行李，南海電鐵 → 難波站（約 50 分）',
+        links: [{ label: '🧭 路線 臨空城→難波', url: mapDir('Rinku-town Station', 'Namba Station Osaka') }],
+      },
       {
         start: '17:20',
         end: '17:40',
@@ -55,9 +86,22 @@ export const days: Day[] = [
         text: '入住 心齋橋哈頓飯店（放行李）',
         addr: '〒542-0086 大阪市中央區西心齋橋 1-5-24',
         map: MAP_HEARTON,
+        links: [{ label: '🧭 路線 難波站→飯店', url: mapDir('Namba Station Osaka', '1-5-24 Nishishinsaibashi Chuo Osaka') }],
       },
-      { start: '18:30', end: '20:00', type: 'meal', text: '晚餐：道頓堀（大牧場燒肉/神戶牛 或 千房大阪燒、今井烏龍麵）' },
-      { start: '20:00', end: '21:30', type: 'stay', text: '道頓堀夜逛（唐吉訶德／心齋橋筋）' },
+      {
+        start: '18:30',
+        end: '20:00',
+        type: 'meal',
+        text: '晚餐：道頓堀（大牧場燒肉/神戶牛 或 千房大阪燒、今井烏龍麵）',
+        links: [{ label: '道頓堀', url: mapSearch('Dotonbori Osaka') }],
+      },
+      {
+        start: '20:00',
+        end: '21:30',
+        type: 'stay',
+        text: '道頓堀夜逛（唐吉訶德／心齋橋筋）',
+        links: [{ label: '唐吉訶德 道頓堀', url: mapSearch('Don Quijote Dotonbori') }],
+      },
     ],
     tips: [
       '行李提醒：到臨空城站務必先寄物再逛；取出後要一路拖進大阪，買多會變重。',
