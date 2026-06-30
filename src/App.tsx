@@ -34,10 +34,10 @@ function Timeline({ slots }: { slots: Day['slots'] }) {
     <div className="timeline">
       {slots.map((s, i) => (
         <div className={`tl-slot ${s.type}`} key={i}>
-          <span className="tl-slot-time">
-            {s.start}–{s.end}
-          </span>
           <span className="tl-slot-text">
+            <span className="tl-slot-time">
+              {s.start}–{s.end}
+            </span>
             <span className="tl-title">
               {s.map && mapEmbed(s.map) ? (
                 <button type="button" className="tl-title-btn" onClick={() => toggle(`map:${i}`)}>
